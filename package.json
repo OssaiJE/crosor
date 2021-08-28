@@ -1,0 +1,33 @@
+{
+  "name": "crosor",
+  "version": "1.0.3",
+  "description": "A fullstack social network application built with Node.js, Express.js, React.js, Mongo DB and graphql.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "crosor"
+  },
+  "keywords": [
+    "social",
+    "network",
+    "node",
+    "express",
+    "react",
+    "mongodb",
+    "graphql",
+    "media",
+    "facebook",
+    "twitter"
+  ],
+  "author": "Julius Ossai",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^3.3.0",
+    "graphql": "^15.5.1",
+    "mongoose": "^6.0.2",
+    "morgan": "^1.10.0"
+  }
+}
