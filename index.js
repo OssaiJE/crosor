@@ -4,8 +4,6 @@ const dotenv = require("dotenv");
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers/index.resolvers");
-// const User = require("./models/User");
-// const Post = require("./models/Post");
 const connectDB = require("./config/db");
 
 // Load config
@@ -13,7 +11,6 @@ dotenv.config({ path: "./config/config.env" });
 
 // Connecting to DB
 connectDB();
-
 
 const server = new ApolloServer({
   typeDefs,
