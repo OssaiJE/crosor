@@ -26,6 +26,10 @@ module.exports = {
   Mutation: {
     async login(_, { username, password }) {
       const { errors, valid } = validateLoginInput(username, password);
+
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
       const user = await User.findOne({ username });
       // check for username match
       if (!user) {
@@ -80,7 +84,7 @@ module.exports = {
       });
       const res = await newUser.save();
 
-      const token = generateToken(res)
+      const token = generateToken(res);
       return {
         ...res._doc,
         id: res._id,
