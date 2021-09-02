@@ -1,3 +1,8 @@
+const { AuthenticationError } = require("apollo-server");
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../config/config");
+
+//  Validate Register input
 module.exports.validateRegisterInput = (
   username,
   email,
@@ -17,7 +22,7 @@ module.exports.validateRegisterInput = (
   }
   if (password === "") {
     errors.password = "Password must not be empty";
-  } 
+  }
   // Check password length
   else if (password.length < 6) {
     errors.password = "Password should be at least 6 characters.";
@@ -30,16 +35,34 @@ module.exports.validateRegisterInput = (
   };
 };
 
+//  Validate login input
 module.exports.validateLoginInput = (username, password) => {
   const errors = {};
-  if (username.trim()=== "") {
+  if (username.trim() === "") {
     errors.username = "Username must not be empty";
-  } 
-  else if (password.trim()==="") {
+  } else if (password.trim() === "") {
     errors.password = "Password must not be empty";
   }
   return {
     errors,
     valid: Object.keys(errors).length < 1,
   };
-}
+};
+
+//  Authentication and authorization
+module.exports.auth = (context) => {
+  const authHeader = context.req.headers.authorization;
+  if (authHeader) {
+    const token = authHeader.split("Bearer")[1];
+    if (token) {
+      try {
+        const user = jwt.verify(token, SECRET_KEY);
+        return user;
+      } catch (err) {
+        throw new AuthenticationError("Invalid/Expired token");
+      }
+    }
+    throw new Error("Authentication token must be 'Bearer [token]'");
+  }
+  throw new Error("Authorization header must be provided");
+};
