@@ -17,6 +17,10 @@ module.exports.validateRegisterInput = (
   }
   if (password === "") {
     errors.password = "Password must not be empty";
+  } 
+  // Check password length
+  else if (password.length < 6) {
+    errors.password = "Password should be at least 6 characters.";
   } else if (password !== confirmPassword) {
     errors.confirmPassword = "Password does not match with confirm password";
   }
