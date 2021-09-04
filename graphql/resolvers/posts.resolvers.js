@@ -44,19 +44,19 @@ module.exports = {
 
       return post;
     },
-  },
-  async deletePost(_, { postId }, context) {
-    const user = authCheck(context);
-    try {
-      const post = await Post.findById(postId);
-      if (user.id === post.user) {
-        await post.delete();
-        return "Post successfully deleted.";
-      } else {
-        throw new AuthenticationError("Operation not permitted.");
+    async deletePost(_, { postId }, context) {
+      const user = authCheck(context);
+      try {
+        const post = await Post.findById(postId);
+        if (user.username === post.username) {
+          await post.delete();
+          return "Post successfully deleted.";
+        } else {
+          throw new AuthenticationError("Operation not permitted.");
+        }
+      } catch (err) {
+        throw new Error(err);
       }
-    } catch (err) {
-      throw new Error(err);
-    }
+    },
   },
 };
