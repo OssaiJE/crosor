@@ -1,12 +1,14 @@
+const { AuthenticationError } = require("apollo-server");
+
 const Post = require("../../models/Post");
-const { auth, authCheck } = require("../../utils/validators");
+const { authCheck } = require("../../utils/validators");
 
 module.exports = {
   Query: {
     // Get all posts from DB
     async getPosts() {
       try {
-        let posts = await Post.find();
+        let posts = await Post.find().sort({ createdat: -1 });
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -42,5 +44,19 @@ module.exports = {
 
       return post;
     },
+  },
+  async deletePost(_, { postId }, context) {
+    const user = authCheck(context);
+    try {
+      const post = await Post.findById(postId);
+      if (user.id === post.user) {
+        await post.delete();
+        return "Post successfully deleted.";
+      } else {
+        throw new AuthenticationError("Operation not permitted.");
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
   },
 };
