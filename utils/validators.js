@@ -50,10 +50,10 @@ module.exports.validateLoginInput = (username, password) => {
 };
 
 //  Authentication and authorization
-module.exports.auth = (context) => {
+module.exports.authCheck = (context) => {
   const authHeader = context.req.headers.authorization;
   if (authHeader) {
-    const token = authHeader.split("Bearer")[1];
+    const token = authHeader.split("Bearer ")[1];
     if (token) {
       try {
         const user = jwt.verify(token, SECRET_KEY);
