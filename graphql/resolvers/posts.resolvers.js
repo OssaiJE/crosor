@@ -42,13 +42,13 @@ module.exports = {
       });
       const post = await newPost.save();
 
-      return post;
+        return post;
     },
     async deletePost(_, { postId }, context) {
       const user = authCheck(context);
       try {
         const post = await Post.findById(postId);
-        if (user.username === post.username) {
+        if (user.id === post.user.toString()) {
           await post.delete();
           return "Post successfully deleted.";
         } else {

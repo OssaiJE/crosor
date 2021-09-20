@@ -24,6 +24,8 @@ const generateToken = (user) => {
 
 module.exports = {
   Mutation: {
+
+    // Login handler
     async login(_, { username, password }) {
       const { errors, valid } = validateLoginInput(username, password);
 
@@ -50,6 +52,7 @@ module.exports = {
         token,
       };
     },
+    // Register handler
     async register(
       _,
       { registerInput: { username, email, password, confirmPassword } }
@@ -83,7 +86,6 @@ module.exports = {
         createdat: new Date().toISOString(),
       });
       const res = await newUser.save();
-
       const token = generateToken(res);
       return {
         ...res._doc,
