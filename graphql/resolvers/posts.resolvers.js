@@ -1,4 +1,4 @@
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Post = require("../../models/Post");
 const { authCheck } = require("../../utils/validators");
@@ -28,6 +28,8 @@ module.exports = {
       }
     },
   },
+
+  //    Post Mutations starts here
   Mutation: {
 	  //	Create post mutation
     async createPost(_, { body }, context) {
@@ -42,6 +44,7 @@ module.exports = {
 
       return post;
     },
+
 	//	Delete post mutation
     async deletePost(_, { postId }, context) {
       const user = authCheck(context);
@@ -57,5 +60,30 @@ module.exports = {
         throw new Error(err);
       }
     },
+
+    // Create comments mutation using arrow function
+    createComment: async (_, {postId, body}, context) => {
+        //  the bellow username was destructured from user
+        const {username} = authCheck(context);
+        if (body.trim()=== ""){
+            throw new UserInputError("Empty comment", {
+                errors: {
+                    body: "Comment must not be empty"
+                }
+            })
+        }
+        const post = await Post.findById(postId);
+        if (post) {
+            post.comments.unshift({
+                body,
+                username,
+                createdat: new Date().toISOString()
+            })
+            await post.save();
+            return post;
+        } else {
+            throw new UserInputError("Post not found")
+        }
+    }
   },
 };
