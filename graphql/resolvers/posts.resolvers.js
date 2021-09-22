@@ -29,11 +29,9 @@ module.exports = {
     },
   },
   Mutation: {
+	  //	Create post mutation
     async createPost(_, { body }, context) {
       const user = authCheck(context);
-
-      // console.log(user);
-
       const newPost = new Post({
         body,
         user: user.id,
@@ -42,8 +40,9 @@ module.exports = {
       });
       const post = await newPost.save();
 
-        return post;
+      return post;
     },
+	//	Delete post mutation
     async deletePost(_, { postId }, context) {
       const user = authCheck(context);
       try {
