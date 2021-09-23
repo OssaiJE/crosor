@@ -86,5 +86,28 @@ module.exports = {
         throw new UserInputError("Post not found");
       }
     },
+
+    //  Delete comments mutation using arrow function
+    deleteComment: async (_, { postId, commentId }, context) => {
+      //  the below username was destructured from user
+      const { username } = authCheck(context);
+      const post = await Post.findById(postId);
+      if (post) {
+        // We find the index of the comments in the array of comments
+        const commentIndex = post.comments.findIndex(
+          (comment) => comment.id === commentId
+        );
+
+        if (post.comments[commentIndex].username === username) {
+          post.comments.splice(commentIndex, 1);
+          await post.save();
+          return post;
+        } else {
+          throw new AuthenticationError("Action not permitted");
+        }
+      } else {
+        throw new UserInputError("Post not found");
+      }
+    },
   },
 };
