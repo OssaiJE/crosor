@@ -31,7 +31,7 @@ module.exports = {
 
   //    Post Mutations starts here
   Mutation: {
-	  //	Create post mutation
+    //	Create post mutation
     async createPost(_, { body }, context) {
       const user = authCheck(context);
       const newPost = new Post({
@@ -45,7 +45,7 @@ module.exports = {
       return post;
     },
 
-	//	Delete post mutation
+    //	Delete post mutation
     async deletePost(_, { postId }, context) {
       const user = authCheck(context);
       try {
@@ -62,28 +62,29 @@ module.exports = {
     },
 
     // Create comments mutation using arrow function
-    createComment: async (_, {postId, body}, context) => {
-        //  the bellow username was destructured from user
-        const {username} = authCheck(context);
-        if (body.trim()=== ""){
-            throw new UserInputError("Empty comment", {
-                errors: {
-                    body: "Comment must not be empty"
-                }
-            })
-        }
-        const post = await Post.findById(postId);
-        if (post) {
-            post.comments.unshift({
-                body,
-                username,
-                createdat: new Date().toISOString()
-            })
-            await post.save();
-            return post;
-        } else {
-            throw new UserInputError("Post not found")
-        }
-    }
+    createComment: async (_, { postId, body }, context) => {
+      //  the below username was destructured from user
+      const { username } = authCheck(context);
+      if (body.trim() === "") {
+        throw new UserInputError("Empty comment", {
+          errors: {
+            body: "Comment must not be empty",
+          },
+        });
+      }
+      const post = await Post.findById(postId);
+      if (post) {
+        //  unshift() method add the latest to the top
+        post.comments.unshift({
+          body,
+          username,
+          createdat: new Date().toISOString(),
+        });
+        await post.save();
+        return post;
+      } else {
+        throw new UserInputError("Post not found");
+      }
+    },
   },
 };
