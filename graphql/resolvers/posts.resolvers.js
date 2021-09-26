@@ -74,7 +74,7 @@ module.exports = {
       }
       const post = await Post.findById(postId);
       if (post) {
-        //  unshift() method add the latest to the top
+        //  unshift() method add the latest to the top in DB
         post.comments.unshift({
           body,
           username,
@@ -127,7 +127,6 @@ module.exports = {
             createdat: new Date().toISOString(),
           });
         }
-
         await post.save();
         return post;
       } else {
@@ -135,4 +134,11 @@ module.exports = {
       }
     },
   },
+
+//   Subscription handler starts
+// Subscription: {
+//     newPost: {
+        
+//     }
+// }
 };

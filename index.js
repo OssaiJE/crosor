@@ -12,6 +12,9 @@ dotenv.config({ path: "./config/config.env" });
 // Connecting to DB
 connectDB();
 
+// Instantiate pubsub for user post subscriptions
+// const pubsub = new PubSub();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
