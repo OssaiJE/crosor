@@ -34,6 +34,11 @@ module.exports = {
     //	Create post mutation
     async createPost(_, { body }, context) {
       const user = authCheck(context);
+
+      if (body.trim() === "") {
+        throw new Error("Post body must not be empty.");
+      }
+
       const newPost = new Post({
         body,
         user: user.id,
@@ -135,10 +140,10 @@ module.exports = {
     },
   },
 
-//   Subscription handler starts
-// Subscription: {
-//     newPost: {
-        
-//     }
-// }
+  //   Subscription handler starts
+  // Subscription: {
+  //     newPost: {
+
+  //     }
+  // }
 };
