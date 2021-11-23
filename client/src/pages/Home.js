@@ -1,13 +1,12 @@
 import React from 'react'
 
-import GuestHeader from '../components/GuestHeader'
-import RegLogin from '../components/RegLogin'
+// import GuestHeader from '../components/GuestHeader'
+// import RegLogin from '../components/RegLogin'
 
 const Home = () => {
     return (
       <div>
-        <GuestHeader />
-        <RegLogin />
+        <h1>Home</h1>
       </div>
     );
 }
