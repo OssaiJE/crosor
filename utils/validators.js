@@ -13,7 +13,7 @@ module.exports.validateRegisterInput = (
   if (username.trim() === "") {
     errors.username = "Username must not be empty";
   } else if (email.trim() === "") {
-    errors.username = "Email must not be empty";
+    errors.email = "Email must not be empty";
   } else {
     const regEx = /\S+@\S+\.\S+/;
     if (!email.match(regEx)) {
